@@ -175,7 +175,7 @@ function fetchWeather({city,lat,lon}){
 
     function findWeather(){
     const cityName = writeCity.value;
-
+    
      if(!cityName){
        showError.innerHTML = "Enter the Correct City name" ;
        return;

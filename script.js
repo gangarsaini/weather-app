@@ -1,5 +1,4 @@
 //api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
-//api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
 const writeCity = document.querySelector('#serachInput');
 const findCitybtn = document.querySelector('#findcitybtn');
 const findbyloc = document.querySelector('#findbylocation');
@@ -11,10 +10,11 @@ const imgArea = document.querySelector('#img-area');
 const showErrorApi = document.querySelector("#show-error-api");
 const overLay = document.querySelector('.overlay');
 const recentSearch = document.querySelector('#recent-search');
-//const cityName = writeCity.value;
 
 
-let CountryNotPresent = false;
+let currentTemp = false;
+
+
 function getDatalocalstorage(){
     return JSON.parse(localStorage.getItem("APIDATA")) || []
 }  
@@ -34,9 +34,10 @@ function setRecentCities(CityList){
 
 // the getwatherbylocation function
 function getWeatherByLocation() {
+
   if (!navigator.geolocation) {
-    showErrorApi.innerHTML = "Geolocation is not supported by this browser.";
-    overLay.classList.remove('display_none');
+
+ 
     return;
   }
   navigator.geolocation.getCurrentPosition(
@@ -46,9 +47,8 @@ function getWeatherByLocation() {
                   lon : position.coords.longitude
                 });
      },
-     () => {
-      showErrorApi.innerHTML = "Location access denied. Please allow location access.";
-      overLay.classList.remove('display_none');
+    (error) => {
+      ErrorHandle("Location access denied. Please allow location access.");
     }
   );
 }
@@ -61,14 +61,44 @@ function renderData(data){
     const Createh2 = document.createElement('H2');
     Createh2.innerHTML = data.city.name;
     Createh2.classList.add('font-bold','text-xl');
-    const createDate = document.createElement('P');
-    const getData = `<span>Date : ${data.list[0].dt_txt}°C</span>`;
+    const createDate = document.createElement('span');
+    const getData = ` (${data.list[0].dt_txt.split(" ")[0]})`;
     createDate.innerHTML = getData;
+    Createh2.appendChild(createDate);
     const createp1 = document.createElement('P');
     const tempValue = data.list[0].main.temp;
-    createp1.innerHTML = `<span>Temperature : ${Math.round(tempValue)}°C</span>`
+    const TempInDegree = Math.round(tempValue);
+    // temperature more than 40 condition
+    if(TempInDegree>40){
+       console.warn("City is very hot");
+    }
+    //Creating toggle btn
+    const StoreTemp = Math.round(Math.round(tempValue)*9/5)+32
+    createp1.innerHTML = `<div>
+        Temperature : <span class="temp-value">${TempInDegree}°C</span> 
+        <span class="toggle-btn">
+          <span class="circle"></span>
+        </span> 
+    </div>`
+    
+    const getTempratureValue = createp1.querySelector('.temp-value');
+    const toggleBtn = createp1.querySelector('.toggle-btn');
+    // creating toggle to change Temprature
+    toggleBtn.addEventListener('click', ()=>{
+      currentTemp = !currentTemp
+      toggleBtn.classList.toggle('on');
+      if(currentTemp){
+        getTempratureValue.innerText =  `${StoreTemp} °F`;
+     }
+     else{
+       getTempratureValue.innerText =  `${TempInDegree} °C`;
+     }
+        
+      
+ })
+ 
     const createp2 = document.createElement('P');
-    createp2.innerHTML = `<span>Wind : ${data.list[0].weather[0].icon}</span>`;
+    createp2.innerHTML = `<div>Wind : ${data.list[0].weather[0].icon}</div>`;
         const weatherCondn = data.list[0].weather[0].main;
         let iconClass = "";
     if(weatherCondn === "Clouds") iconClass = "fa-cloud";
@@ -76,16 +106,15 @@ function renderData(data){
     else if(weatherCondn === "Rain") iconClass = "fa-cloud-rain";
     const icon = document.createElement('i');
     icon.className = `fa-solid custum-style-icon ${iconClass}`;
-    
     imgArea.appendChild(icon);
     const createp3 = document.createElement('P');
-    createp3.innerHTML = `<span>Humidity : ${data.list[0].main.humidity}</span>`
+    createp3.innerHTML = `<div>Humidity : ${data.list[0].main.humidity}</div>`
+    // five days forecasting
     const forecastData = data.list.filter(item =>
         item.dt_txt.includes("12:00:00")
     )
-
     forecastData.forEach((day)=>{
-        console.log(day)
+        console.log(day,"what in it")
          const card = document.createElement('div');
          card.classList.add('h-36', 'bg-blue-600', 'text-white', 'p-3', 'flex-1');
          card.innerHTML = `
@@ -97,7 +126,7 @@ function renderData(data){
         dayOne.appendChild(card);
     })
      datacontainer.innerHTML = "";
-    datacontainer.append(Createh2,createp1,createp2,createp3,createDate); 
+    datacontainer.append(Createh2,createp1,createp2,createp3); 
 }
 
 
@@ -132,6 +161,21 @@ function renderCities(){
     })
 }
 
+//Error Handling Function
+function ErrorHandle(message){
+   if (!overLay.classList.contains('display_none')) return;
+   showErrorApi.innerHTML = message;
+   const createBtn = document.createElement('button');
+    createBtn.innerHTML = "ok";
+    createBtn.classList.add('btn-design');
+    createBtn.addEventListener('click', ()=>{
+            overLay.classList.add('display_none');
+            showErrorApi.innerHTML = ""; 
+           
+    })
+    showErrorApi.appendChild(createBtn);
+    overLay.classList.remove('display_none'); 
+}
 
 function fetchWeather({city,lat,lon}){
     let url = "";
@@ -159,35 +203,39 @@ function fetchWeather({city,lat,lon}){
       
        })
      .catch((error)=>{
-        showErrorApi.innerHTML = "Please Enter a valid Country name";
-        const createBtn = document.createElement('button');
-        createBtn.innerHTML = "ok";
-        createBtn.classList.add('btn-design');
-        createBtn.addEventListener('click', ()=>{
-            overLay.classList.add('display_none');
-            showErrorApi.innerHTML = ""; 
-        })
-        showErrorApi.appendChild(createBtn);
-        overLay.classList.remove('display_none'); 
+        const msg = "Please Enter the valid City name"
+        ErrorHandle(msg)
        
      });
     }
+
 
     function findWeather(){
     const cityName = writeCity.value;
     
      if(!cityName){
-       showError.innerHTML = "Enter the Correct City name" ;
+        const msg = "Please, Enter the City Name First or Search by Location";
+        ErrorHandle(msg);
        return;
      }
      fetchWeather({city:cityName})
     }
 
 
-findCitybtn.addEventListener('click', findWeather);
-findbyloc.addEventListener('click', getWeatherByLocation);
+findCitybtn.addEventListener('click', ()=>{
+  overLay.classList.add('display_none');
+  showErrorApi.innerHTML = "";
+  findWeather();
+});
+findbyloc.addEventListener('click', ()=>{
+  overLay.classList.add('display_none');
+  showErrorApi.innerHTML = "";
+  getWeatherByLocation()
+});
 document.addEventListener("DOMContentLoaded", () => {
     renderCities();
 });
+
+
 
 

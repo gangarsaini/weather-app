@@ -55,7 +55,7 @@ color:#d0d0d0;
 }
 
 #show-error-api{
- background-color: rgb(37 99 235 / var(--tw-bg-opacity, 1));
+    background-color: rgb(37 99 235 / var(--tw-bg-opacity, 1));
     min-width: 450px;
     padding: 20px;
     display: flex;
@@ -78,3 +78,34 @@ color:#d0d0d0;
 .flex-1{
   flex:1 0 0;
 }
+
+span.toggle-btn {
+    width: 50px;
+    display: inline-block;
+   background-color:  #fff;
+    height: 20px;
+    border-radius: 50px;
+    position: relative;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.toggle-btn .circle{
+     width: 16px;
+    height: 16px;
+    background: oklch(0.63 0.15 153.89);
+    display: inline-block;
+    border-radius: 50%;
+    top: 1.5px;
+    position: absolute;
+    cursor: pointer;
+    left:0px;
+    transition: all .8s ease-in-out;
+}
+
+.toggle-btn.on .circle{
+right:0px;
+left:inherit;
+}
+
+

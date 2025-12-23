@@ -23,12 +23,13 @@
 
             
 <form class="max-w-md mx-auto">   
+    <h2>Enter the City Name</h2>
     <label for="search" class="block mb-2.5 text-sm font-medium text-heading sr-only ">Search</label>
     <div class="relative">
         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
             <svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/></svg>
         </div>
-        <input id="serachInput" type="search" id="search" class="block w-full p-3 ps-9 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body" placeholder="Enter the City Name" required />
+        <input id="serachInput" type="search" id="search" class="block w-full p-3 ps-9 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body" placeholder="E.g ,India,Delhi,London" required />
         <span id="show-Error" class="absolute bottom-[-15px] text-sm/[8px] text-red-800"></span>
         <button id="findcitybtn" type="button" class="absolute end-1.5 bottom-1.5 text-white bg-blue-600 hover:bg-brand-strong box-border border border-transparent focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded text-xs px-3 py-1.5 focus:outline-none">Search</button>
      </div>
@@ -36,8 +37,10 @@
      <button type="button" id="findbylocation"  class="w-[100%]  text-white bg-dark box-border border border-transparent hover:bg-dark-strong focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">Current Location</button>
 </form>
     <div class="recent-serach-list mt-4">
-         <H2 class="mt-4 text-[20px] underline">Recent Searched History</H2>
-        <ul id="recent-search"></ul>
+         <H2 class="mt-4 mb-4 text-[20px] underline">Recent Searched History</H2>
+           <select id="recent-search" class="block w-full px-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body mb-4">
+             <option selected>Select from Recent City</option>
+        </select>
     </div>
  </aside>
 <article id="data-wrapper" class="ml-4 w-full">
@@ -48,7 +51,7 @@
             <div class="mt-10">
                 <h2 class="font-bold">5-day Forecast</h2>
                 <div class="">
-                <div class="text-white  flex mt-3 gap-2" id="day-one"></div>
+                <div class="text-black text-center flex mt-3 gap-2" id="day-one"></div>
                </div>
             </div>
 </article>
@@ -59,6 +62,3 @@
 </body>
 </html>
 
-    <!--      currentTemp?(createp1.innerHTML = `<div>Temperature : ${StoreTemp} °F, <span class="toggle-btn"><span class="circle"
-     ></span></span> </div>`): createp1.innerHTML = `<div>Temperature : ${TempInDegree} °C, <span class="toggle-btn"><span class="circle"
- ></span></span> </div>` -->

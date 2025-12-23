@@ -36,9 +36,7 @@ function setRecentCities(CityList){
 function getWeatherByLocation() {
 
   if (!navigator.geolocation) {
-
- 
-    return;
+       return;
   }
   navigator.geolocation.getCurrentPosition(
     (position) => {
@@ -53,6 +51,11 @@ function getWeatherByLocation() {
   );
 }
 
+const tempAlert = document.createElement('p');
+tempAlert.innerHTML = "⚠️ City is very hot! Temperature is above 40°C";
+tempAlert.classList.add('fixed-in-top');
+tempAlert.style.display = "none"
+document.body.appendChild(tempAlert);
 // render the View
 function renderData(data){
     datacontainer.innerHTML  = ''
@@ -69,9 +72,14 @@ function renderData(data){
     const tempValue = data.list[0].main.temp;
     const TempInDegree = Math.round(tempValue);
     // temperature more than 40 condition
-    if(TempInDegree>40){
-       console.warn("City is very hot");
-    }
+  
+     if(TempInDegree>40){
+      tempAlert.style.display = "block"
+      }
+      else{
+        tempAlert.style.display = "none"
+      }
+
     //Creating toggle btn
     const StoreTemp = Math.round(Math.round(tempValue)*9/5)+32
     createp1.innerHTML = `<div>
@@ -98,7 +106,7 @@ function renderData(data){
  })
  
     const createp2 = document.createElement('P');
-    createp2.innerHTML = `<div>Wind : ${data.list[0].weather[0].icon}</div>`;
+    createp2.innerHTML = `<div>Wind : ${data.list[0].wind.speed}</div>`;
         const weatherCondn = data.list[0].weather[0].main;
         let iconClass = "";
     if(weatherCondn === "Clouds") iconClass = "fa-cloud";
@@ -116,12 +124,32 @@ function renderData(data){
     forecastData.forEach((day)=>{
         console.log(day,"what in it")
          const card = document.createElement('div');
-         card.classList.add('h-36', 'bg-blue-600', 'text-white', 'p-3', 'flex-1');
-         card.innerHTML = `
-            <h4>${day.dt_txt.split(" ")[0]}</h4>
-            <p>${Math.round(day.main.temp)}°C</p>
-            <p>${day.weather[0].main}</p>
-        `;
+         card.classList.add('h-36', 'bg-gray-500','text-black', 'p-3', 'flex-1');
+         const forecastWeathericon = day.weather[0].main;
+          if(forecastWeathericon === "Clouds") iconClass = "fa-cloud";
+          else if(forecastWeathericon === "Clear") iconClass = "fa-sun";
+          else if(forecastWeathericon === "Rain") iconClass = "fa-cloud-rain";
+          const weatherIconWapper = document.createElement('P');
+          const weatherIcon = document.createElement('i');
+          weatherIconWapper.appendChild(weatherIcon);
+          weatherIcon.className = `fa-solid ${iconClass}`
+          const forecastdataP1 = document.createElement('p');
+          forecastdataP1.innerHTML = day.dt_txt.split(" ")[0]
+          const forecastdataP2 = document.createElement('p');
+          forecastdataP2.innerHTML = `${Math.round(day.main.temp)}°C`;
+          const forecastdataP3 = document.createElement('p');
+          forecastdataP3.innerHTML = `${day.wind.speed}`;
+          const forecastdataP4 = document.createElement('p');
+          forecastdataP4.innerHTML = `${day.main.humidity}`;
+          card.append(forecastdataP1,forecastdataP2,weatherIconWapper,forecastdataP3,forecastdataP4)
+        //  card.innerHTML = `
+           
+        //     <h4>(${day.dt_txt.split(" ")[0]})</h4>
+        //     <p>temp: ${Math.round(day.main.temp)}°C</p>
+        //      ${weatherIcon.className = `fa-solid ${iconClass}`}
+        //     <p>Wind : ${day.wind.speed}</p>
+        //     <p>humidity : ${day.main.humidity}</p>
+        // `;
         
         dayOne.appendChild(card);
     })
@@ -149,17 +177,20 @@ function renderCities(){
     let cities = getRecentCities();
    recentSearch.innerHTML = "";
    cities.forEach((city)=>{
-        const createli = document.createElement('li');
-        createli.textContent = city
+        const createli = document.createElement('option');
+        createli.innerHTML = city
         createli.classList.add("cursor-pointer", "text-blue-600");
+        recentSearch.appendChild(createli)
+   })
+}
 
-        createli.addEventListener('click', ()=>{
-            writeCity.value = city;
+        recentSearch.addEventListener('change', (e)=>{
+          const getOnChangeValue = e.target.value;
+          console.log(getOnChangeValue);
+           //if (!getOnChangeValue) return;
+            writeCity.value = getOnChangeValue;
             findWeather()
         })
-        recentSearch.appendChild(createli)
-    })
-}
 
 //Error Handling Function
 function ErrorHandle(message){
@@ -197,6 +228,7 @@ function fetchWeather({city,lat,lon}){
             }
           })
         .then((result)=> {
+          console.log(result)
         setDatalocalstorage(result); 
         renderData(result);
         recentCity(result.city.name);

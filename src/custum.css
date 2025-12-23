@@ -7,7 +7,7 @@ body{
 }
 
 .custum-style-icon{
-  font-size:70px;
+  font-size:100px;
 }
 
 .custum-style-icon.fa-sun{
@@ -69,12 +69,16 @@ color:#d0d0d0;
 .design-heading{
   margin-top:20px;
 }
-
+#recent-search:focus-visible{
+  outline: none;
+}
 #recent-search li{
   font-size:14px;
   cursor: pointer;
   margin-bottom: 1px;
 }
+
+
 .flex-1{
   flex:1 0 0;
 }
@@ -109,3 +113,16 @@ left:inherit;
 }
 
 
+.fixed-in-top{
+  position: fixed;
+  width: 100%;
+  background-color:rgb(247, 154, 16);
+  color: #fff;
+  right: 0px;
+  left: 0px;
+  top:0px;
+  z-index: 0;
+  padding:6px 0px;
+  text-align: center;
+  
+}

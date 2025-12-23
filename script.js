@@ -10,11 +10,9 @@ const imgArea = document.querySelector('#img-area');
 const showErrorApi = document.querySelector("#show-error-api");
 const overLay = document.querySelector('.overlay');
 const recentSearch = document.querySelector('#recent-search');
-
+const imgChange = document.querySelector('#img-change');
 
 let currentTemp = false;
-
-
 function getDatalocalstorage(){
     return JSON.parse(localStorage.getItem("APIDATA")) || []
 }  
@@ -35,7 +33,7 @@ function setRecentCities(CityList){
 // the getwatherbylocation function
 function getWeatherByLocation() {
 
-  if (!navigator.geolocation) {
+  if (!navigator.geolocation){
        return;
   }
   navigator.geolocation.getCurrentPosition(
@@ -106,17 +104,37 @@ function renderData(data){
  })
  
     const createp2 = document.createElement('P');
-    createp2.innerHTML = `<div>Wind : ${data.list[0].wind.speed}</div>`;
+    createp2.innerHTML = `<div>Wind : ${data.list[0].wind.speed} M/S</div>`;
         const weatherCondn = data.list[0].weather[0].main;
-        let iconClass = "";
+      const CreateH2 = document.createElement('h2');
+      CreateH2.innerHTML = data.list[0].weather[0].main;
+      if(weatherCondn === "Clouds"){
+      imgChange.classList.add('clouds');
+    }
+    else{
+      imgChange.classList.remove('clouds');
+    }
+    if(weatherCondn === "Clear"){
+      imgChange.classList.add('clear');
+    }
+    else{
+      imgChange.classList.remove('clear');
+    }
+        if(weatherCondn === "Rain"){
+      imgChange.classList.add('rain');
+    }
+    else{
+      imgChange.classList.remove('rain');
+    }
+    let iconClass = "";
     if(weatherCondn === "Clouds") iconClass = "fa-cloud";
     else if(weatherCondn === "Clear") iconClass = "fa-sun";
     else if(weatherCondn === "Rain") iconClass = "fa-cloud-rain";
     const icon = document.createElement('i');
     icon.className = `fa-solid custum-style-icon ${iconClass}`;
-    imgArea.appendChild(icon);
+    imgArea.append(icon,CreateH2);
     const createp3 = document.createElement('P');
-    createp3.innerHTML = `<div>Humidity : ${data.list[0].main.humidity}</div>`
+    createp3.innerHTML = `<div>Humidity : ${data.list[0].main.humidity}%</div>`
     // five days forecasting
     const forecastData = data.list.filter(item =>
         item.dt_txt.includes("12:00:00")
@@ -124,7 +142,7 @@ function renderData(data){
     forecastData.forEach((day)=>{
         console.log(day,"what in it")
          const card = document.createElement('div');
-         card.classList.add('h-36', 'bg-gray-500','text-black', 'p-3', 'flex-1');
+         card.classList.add('design-forecate-parent');
          const forecastWeathericon = day.weather[0].main;
           if(forecastWeathericon === "Clouds") iconClass = "fa-cloud";
           else if(forecastWeathericon === "Clear") iconClass = "fa-sun";
@@ -132,26 +150,18 @@ function renderData(data){
           const weatherIconWapper = document.createElement('P');
           const weatherIcon = document.createElement('i');
           weatherIconWapper.appendChild(weatherIcon);
-          weatherIcon.className = `fa-solid ${iconClass}`
+          weatherIcon.className = `fa-solid custum-style-icon ${iconClass}`
           const forecastdataP1 = document.createElement('p');
           forecastdataP1.innerHTML = day.dt_txt.split(" ")[0]
           const forecastdataP2 = document.createElement('p');
-          forecastdataP2.innerHTML = `${Math.round(day.main.temp)}°C`;
+          forecastdataP2.innerHTML = `Temp : ${Math.round(day.main.temp)}°C`;
           const forecastdataP3 = document.createElement('p');
-          forecastdataP3.innerHTML = `${day.wind.speed}`;
+         // const Convertwind = day.wind.speed*3.6
+          forecastdataP3.innerHTML = `Wind : ${day.wind.speed} M/S`;
           const forecastdataP4 = document.createElement('p');
-          forecastdataP4.innerHTML = `${day.main.humidity}`;
+          forecastdataP4.innerHTML = `Humidity : ${day.main.humidity}%`;
           card.append(forecastdataP1,forecastdataP2,weatherIconWapper,forecastdataP3,forecastdataP4)
-        //  card.innerHTML = `
-           
-        //     <h4>(${day.dt_txt.split(" ")[0]})</h4>
-        //     <p>temp: ${Math.round(day.main.temp)}°C</p>
-        //      ${weatherIcon.className = `fa-solid ${iconClass}`}
-        //     <p>Wind : ${day.wind.speed}</p>
-        //     <p>humidity : ${day.main.humidity}</p>
-        // `;
-        
-        dayOne.appendChild(card);
+          dayOne.appendChild(card);
     })
      datacontainer.innerHTML = "";
     datacontainer.append(Createh2,createp1,createp2,createp3); 
@@ -183,11 +193,10 @@ function renderCities(){
         recentSearch.appendChild(createli)
    })
 }
-
-        recentSearch.addEventListener('change', (e)=>{
+recentSearch.addEventListener('change', (e)=>{
           const getOnChangeValue = e.target.value;
           console.log(getOnChangeValue);
-           //if (!getOnChangeValue) return;
+           
             writeCity.value = getOnChangeValue;
             findWeather()
         })
@@ -207,7 +216,7 @@ function ErrorHandle(message){
     showErrorApi.appendChild(createBtn);
     overLay.classList.remove('display_none'); 
 }
-
+// calling api for both situation
 function fetchWeather({city,lat,lon}){
     let url = "";
 
@@ -266,6 +275,10 @@ findbyloc.addEventListener('click', ()=>{
 });
 document.addEventListener("DOMContentLoaded", () => {
     renderCities();
+     const lastData = getDatalocalstorage();
+     if (lastData && lastData.city) {
+    renderData(lastData);
+  }
 });
 
 

@@ -10,6 +10,36 @@ body{
   font-size:100px;
 }
 
+#img-change.clouds{
+  background-image: linear-gradient(
+      rgba(0, 0, 0, .6), 
+      rgba(0, 0, 0, .6)
+    ),url(../src/img/clouds.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#img-change.clear{
+  background-image: linear-gradient(
+      rgba(0, 0, 0, .6), 
+      rgba(0, 0, 0, .6)
+    ),url(../src/img/sun.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+    background-position: center;
+}
+
+#img-change.rain{
+  background-image: linear-gradient(
+      rgba(0, 0, 0, .6), 
+      rgba(0, 0, 0, .6)
+    ),url(../src/img/rain.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+
+
 .custum-style-icon.fa-sun{
 color:#ecec6f;
 }
@@ -19,6 +49,27 @@ color:#d0d0d0;
 
 .custum-style-icon.fa-cloud-rain{
   color:#d5d5d5;
+}
+.forecatWarpper i.custum-style-icon{
+font-size:40px;
+}
+
+.forecatWarpper p{
+  margin-bottom:6px;
+}
+
+#img-area{
+  text-align: center;
+  position: relative;
+  top: -6px;
+}
+
+#img-area h2{
+  margin-top:2px;
+}
+
+#data-container P{
+  margin-bottom:4px;
 }
 
 .overlay{
@@ -69,19 +120,17 @@ color:#d0d0d0;
 .design-heading{
   margin-top:20px;
 }
-#recent-search:focus-visible{
+#recent-search:focus-visible,#serachInput:focus-visible{
   outline: none;
 }
-#recent-search li{
-  font-size:14px;
-  cursor: pointer;
-  margin-bottom: 1px;
+
+.design-forecate-parent{
+flex:1 0 0;
+color:white;
+padding:12px;
+background-color:grey;
 }
 
-
-.flex-1{
-  flex:1 0 0;
-}
 
 span.toggle-btn {
     width: 50px;
@@ -124,5 +173,20 @@ left:inherit;
   z-index: 0;
   padding:6px 0px;
   text-align: center;
-  
+}
+
+@media(max-width:769px){
+
+ .m-view #data-wrapper.ml-4{
+  margin-left:0px;
+ }
+.m-view-button .w-\[400px\]{
+width:100%;
+}
+.forecatWarpper{
+  flex-direction:column;
+}
+#img-change.h-40{
+  height: auto;
+} 
 }

@@ -1,13 +1,32 @@
 body{
   font-family: "Poppins", sans-serif;
+  /* background-image:linear-gradient(to right, #4FACFE, #00F2FE );  */
+  color: #F8FAFC;
+  background-color: #0F172A;
 }
-
+header{
+  background-color: #1E293B;
+  box-shadow: 2px 2px 0px rgba(255, 255, 255, 0.1);
+}
 .bg-dark{
   background-color: oklch(27.8% .033 256.848);
+  box-shadow: 2px 2px 0px rgba(255,255,255,0.1);
+  border-radius:4px;
 }
 
+.bg-neutral-secondary-medium{
+  background-color:transparent;
+  border: none;
+  border-radius:2px;
+  border:1px solid rgba(255, 255, 255, 0.1)
+}
 .custum-style-icon{
   font-size:100px;
+}
+
+#img-change{
+border-radius:4px;
+box-shadow: 2px 2px 0px rgba(255,255,255,0.1);
 }
 
 #img-change.clouds{
@@ -41,10 +60,10 @@ body{
 
 
 .custum-style-icon.fa-sun{
-color:#ecec6f;
+color:#FACC15;
 }
 .custum-style-icon.fa-cloud{
-color:#d0d0d0;
+color:#38BDF8;
 }
 
 .custum-style-icon.fa-cloud-rain{
@@ -120,15 +139,20 @@ font-size:40px;
 .design-heading{
   margin-top:20px;
 }
-#recent-search:focus-visible,#serachInput:focus-visible{
+#findbylocation:focus-visible,#findbylocation:focus,
+#findcitybtn:focus-visible,#findcitybtn:focus
+#serachInput:focus,#serachInput:focus-visible{
   outline: none;
+  box-shadow: none;
 }
 
 .design-forecate-parent{
 flex:1 0 0;
 color:white;
 padding:12px;
-background-color:grey;
+background-color:#1E293B;
+box-shadow: 2px 2px 0px rgba(255,255,255,0.1);
+border-radius:4px;
 }
 
 
@@ -175,18 +199,70 @@ left:inherit;
   text-align: center;
 }
 
-@media(max-width:769px){
+.m-view-button aside h2{
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
 
+@media(max-width:991px){
+  .flex#day-one{
+      flex-wrap: wrap;
+  }
+  .design-forecate-parent {
+        flex: 1 0 30vw;
+    }
+}
+
+@media(max-width:768px){
  .m-view #data-wrapper.ml-4{
   margin-left:0px;
  }
-.m-view-button .w-\[400px\]{
-width:100%;
-}
-.forecatWarpper{
-  flex-direction:column;
-}
+
+ #serachInput,#recent-search{
+  color: #F8FAFC;
+ }
+
 #img-change.h-40{
   height: auto;
 } 
+#show-error-api{
+   min-width: auto;
+   height: auto;
+  width: 80%;
+ font-size: 14px;
+  padding: 10px;
 }
+ 
+
+    .not-in-mobile{
+      font-size:0px;
+    }
+    #findbylocation{
+      position: absolute;
+      right:8px;
+      top:36px;
+    }
+    .m-view-button aside{
+    
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    color: #000;
+    background-color: #1E293B;
+    border:1px solid rgba(255, 255, 255, 0.1);
+    }
+    .custum-style-icon{
+      font-size:60px;
+    }
+    .serach-place{
+      width: calc(100% - 38px);
+    }
+    .bg-dark{
+  background-color:none;
+  box-shadow:none;
+  border-radius:inherit;
+}
+
+}
+

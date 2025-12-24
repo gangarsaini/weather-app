@@ -63,6 +63,7 @@ function renderData(data){
     Createh2.innerHTML = data.city.name;
     Createh2.classList.add('font-bold','text-xl');
     const createDate = document.createElement('span');
+    createDate.classList.add('spanBlock')
     const getData = ` (${data.list[0].dt_txt.split(" ")[0]})`;
     createDate.innerHTML = getData;
     Createh2.appendChild(createDate);
@@ -140,7 +141,7 @@ function renderData(data){
         item.dt_txt.includes("12:00:00")
     )
     forecastData.forEach((day)=>{
-        console.log(day,"what in it")
+        
          const card = document.createElement('div');
          card.classList.add('design-forecate-parent');
          const forecastWeathericon = day.weather[0].main;
@@ -195,9 +196,7 @@ function renderCities(){
 }
 recentSearch.addEventListener('change', (e)=>{
           const getOnChangeValue = e.target.value;
-          console.log(getOnChangeValue);
-           
-            writeCity.value = getOnChangeValue;
+           writeCity.value = getOnChangeValue;
             findWeather()
         })
 
@@ -237,11 +236,11 @@ function fetchWeather({city,lat,lon}){
             }
           })
         .then((result)=> {
-          console.log(result)
         setDatalocalstorage(result); 
         renderData(result);
         recentCity(result.city.name);
       
+          
        })
      .catch((error)=>{
         const msg = "Please Enter the valid City name"
@@ -253,14 +252,13 @@ function fetchWeather({city,lat,lon}){
 
     function findWeather(){
     const cityName = writeCity.value;
-    
-     if(!cityName){
+    if(!cityName){
         const msg = "Please, Enter the City Name First or Search by Location";
         ErrorHandle(msg);
        return;
      }
-     fetchWeather({city:cityName})
-    }
+     fetchWeather({city:cityName});
+  }
 
 
 findCitybtn.addEventListener('click', ()=>{

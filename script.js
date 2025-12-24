@@ -1,4 +1,4 @@
-//api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
+
 const writeCity = document.querySelector('#serachInput');
 const findCitybtn = document.querySelector('#findcitybtn');
 const findbyloc = document.querySelector('#findbylocation');
@@ -11,8 +11,8 @@ const showErrorApi = document.querySelector("#show-error-api");
 const overLay = document.querySelector('.overlay');
 const recentSearch = document.querySelector('#recent-search');
 const imgChange = document.querySelector('#img-change');
+const ApiToken = `13a45244034e7aea0b095a02eb67254e`; //API key should be stored in environment variables or backend in production
 
-let currentTemp = false;
 function getDatalocalstorage(){
     return JSON.parse(localStorage.getItem("APIDATA")) || []
 }  
@@ -32,8 +32,8 @@ function setRecentCities(CityList){
 
 // the getwatherbylocation function
 function getWeatherByLocation() {
-
-  if (!navigator.geolocation){
+ if (!navigator.geolocation){
+       ErrorHandle("Geolocation is not supported by your browser.");
        return;
   }
   navigator.geolocation.getCurrentPosition(
@@ -91,9 +91,11 @@ function renderData(data){
     const getTempratureValue = createp1.querySelector('.temp-value');
     const toggleBtn = createp1.querySelector('.toggle-btn');
     // creating toggle to change Temprature
+    let currentTemp = false;
+    toggleBtn.classList.remove('on');
     toggleBtn.addEventListener('click', ()=>{
-      currentTemp = !currentTemp
-      toggleBtn.classList.toggle('on');
+      currentTemp = !currentTemp;
+       toggleBtn.classList.toggle('on');
       if(currentTemp){
         getTempratureValue.innerText =  `${StoreTemp} °F`;
      }
@@ -189,7 +191,9 @@ function renderCities(){
    recentSearch.innerHTML = "";
    cities.forEach((city)=>{
         const createli = document.createElement('option');
-        createli.innerHTML = city
+        createli.setAttribute('value',city)
+        createli.value = city;
+        createli.textContent = city;
         createli.classList.add("cursor-pointer", "text-blue-600");
         recentSearch.appendChild(createli)
    })
@@ -201,29 +205,30 @@ recentSearch.addEventListener('change', (e)=>{
         })
 
 //Error Handling Function
-function ErrorHandle(message){
-   if (!overLay.classList.contains('display_none')) return;
-   showErrorApi.innerHTML = message;
-   const createBtn = document.createElement('button');
-    createBtn.innerHTML = "ok";
-    createBtn.classList.add('btn-design');
-    createBtn.addEventListener('click', ()=>{
+ const createBtn = document.createElement('button');
+ createBtn.innerHTML = "ok";
+ createBtn.classList.add('btn-design');
+  createBtn.addEventListener('click', ()=>{
             overLay.classList.add('display_none');
             showErrorApi.innerHTML = ""; 
            
-    })
-    showErrorApi.appendChild(createBtn);
-    overLay.classList.remove('display_none'); 
+  });
+function ErrorHandle(message){
+   if (!overLay.classList.contains('display_none')) return;
+   console.log(message);
+   showErrorApi.innerHTML = message;
+   showErrorApi.appendChild(createBtn);
+   overLay.classList.remove('display_none'); 
 }
 // calling api for both situation
 function fetchWeather({city,lat,lon}){
     let url = "";
 
      if(city){
-      url =    `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=13a45244034e7aea0b095a02eb67254e`;
+      url =    `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${ApiToken}`;
      }
      else if(lat && lon){
-        url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=13a45244034e7aea0b095a02eb67254e`
+        url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${ApiToken}`
      }
 
     fetch(url)

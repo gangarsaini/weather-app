@@ -27,6 +27,7 @@ header{
 #img-change{
 border-radius:12px;
 box-shadow: 2px 2px 0px rgba(255,255,255,0.1);
+background-color:#1E293B;
 }
 
 #img-change.clouds{

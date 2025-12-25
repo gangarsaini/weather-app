@@ -1,60 +1,6 @@
-<!-- Weather Application, I am expalining how, I have created this application
+Weather Application
 
-Firstly one first, i have created basic html after I desgin that, 
-
-in Second day, I had logged in to openWeatherApi webiste. 
-after that i have done some R And D on the APIs
-
-I serached one api for my application
-
-
-get the input city and button fields in script file by querySelector then and call the api, 
-after two three affects it was working and having data.I have used fetch here to call API.
-I have created localStorage function for setItem and getItem. 
-I linked my project github and push my code there.
-
-below is my github link:
-
-
-In the third day, I started to call data from the api of Enter city, for that i have created a
-function (fetchWeather({city,lat,lon})) to call the Api and set the fetched data into the localStorage.
-and a function that i have created for renderdata(), i am setting that result form api into this function.
-
-Another function (findWeather) for the enter the city value if it is not present the show Error.
- if it is present call (fetchWeather()).
-
- Now, on serach button call the addEventListener on click, calling the findWeather() and 
- on another location button call the another addEventListener on click, calling the  getWeatherByLocation()
-
- I have created a function for the to Show the Error ErrorHandle()
-
- I have created a function recentCity() to show Recent-search Country. for this, 
- I have created a seperate localStorage function and store the adds Country into it.
-
- in recentCity I put the codition, like city name should come again, city 
- sholud 5 only and lastest country should come above.
-
- then created a render function to show the Country in dropdown. option of select is created dynamic.
-
-here I am Showing data by renderData having multiple condition like temperature will come in degree
-image and icon come dynamically,
-
-toggle button will come and show the temperature in °C and °f; 
-I have stored that in variable and call it on condition by using a flag(currentTemp);
-
-I am changing background acc to the clouds and icon.
-
-I am also render the recent-search city data by DOMContentLoaded function
-
-After that i have the color theme and try to design it as professionally and make it responsive also. -->
-
-
-
-
-
-🌦️ Weather Application
-
-A responsive Weather Application built using HTML, CSS (Tailwind) and Vanilla JavaScript, which fetches real-time weather data from the OpenWeather API.
+This is a responsive Weather Application built using HTML, CSS (Tailwind) and Vanilla JavaScript, which fetches real-time weather data from the OpenWeather API.
 The app allows users to search weather details by city name or current location and stores recent searches using localStorage.
 
 🔗 Live Demo / GitHub
@@ -96,12 +42,15 @@ Font Awesome Icons
 
 📱 Fully responsive design
 
+
+<!-- development -->
+
 📅 Development Journey (Day-wise Explanation)
 🟢 Day 1 – UI & Basic Setup
 
 Created the basic HTML structure
 
-Designed the UI using Tailwind CSS
+Designed the UI using Tailwind CSS (Cli)
 
 Made the layout responsive for mobile and desktop
 
@@ -212,7 +161,7 @@ const ApiToken = "YOUR_API_KEY";
 📌 Folder Structure (Example)
 /weather-app
 │── index.html
-│── style.css
+│── src/custum.css
 │── script.js
 │── README.md
 

@@ -1,4 +1,5 @@
 
+import Api_Key from "./config.js"
 const writeCity = document.querySelector('#serachInput');
 const findCitybtn = document.querySelector('#findcitybtn');
 const findbyloc = document.querySelector('#findbylocation');
@@ -11,8 +12,8 @@ const showErrorApi = document.querySelector("#show-error-api");
 const overLay = document.querySelector('.overlay');
 const recentSearch = document.querySelector('#recent-search');
 const imgChange = document.querySelector('#img-change');
-const ApiToken = ``; //API key should be stored in environment variables or backend in production
-
+const ApiToken = Api_Key; //API key should be stored in environment variables or backend in production
+console.log(Api_Key);
 function getDatalocalstorage(){
     return JSON.parse(localStorage.getItem("APIDATA")) || []
 }  

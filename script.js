@@ -12,8 +12,8 @@ const showErrorApi = document.querySelector("#show-error-api");
 const overLay = document.querySelector('.overlay');
 const recentSearch = document.querySelector('#recent-search');
 const imgChange = document.querySelector('#img-change');
-const ApiToken = Api_Key; //API key should be stored in environment variables or backend in production
-console.log(Api_Key);
+const ApiToken = Api_Key; //API key should be stored in environment variables or backend in production.
+
 function getDatalocalstorage(){
     return JSON.parse(localStorage.getItem("APIDATA")) || []
 }  

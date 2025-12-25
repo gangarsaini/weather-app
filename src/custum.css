@@ -88,9 +88,10 @@ font-size:40px;
   margin-top:2px;
 }
 
-#data-container P{
+#data-container P,#data-container h2{
   margin-bottom:4px;
 }
+
 
 .overlay{
     position: fixed;
@@ -274,6 +275,7 @@ left:inherit;
 
 #data-container h2{
   font-size:16px;
+  margin-bottom: 14px;
 }
 
 #img-area{

@@ -143,8 +143,8 @@ Tested responsiveness across devices
 
 Clone the repository:
 
-git clone, https://github.com/gangarsaini/weather-app.git
-
+git clone, 
+https://github.com/gangarsaini/weather-app.git
 
 Open index.html in your browser
 
